@@ -137,7 +137,7 @@ export default {
           "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
         },
         orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [{title: "personal_info", "number": 5}, {title: "orders", "number": 1}, {
+        tableSeq: [{title: "personal_info", "number": 0}, {title: "orders", "number": 1}, {
           title: "result",
           "number": 2
         }]
