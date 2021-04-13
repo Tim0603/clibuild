@@ -1,12 +1,9 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <!--    <p>text={{ test }}</p>-->
-    <!--    下拉選單跟顯示第幾頁-->
     <br>
-
-    <!--    四個按鈕-->
     <br>
+    <!--所有按鈕-->
     <button v-on:click="logForm">log this form</button>
     <button v-on:click="logAllForm">log all form</button>
     <button v-on:click="deleteForm">delete this form</button>
@@ -42,34 +39,21 @@
           </template>
         </ul>
       </div>
-      <!--      <li class="list-group-item">-->
-      <!--        <a href="#" @click.prevent="changeView('personal_info')">personal_info</a>-->
-      <!--      </li>-->
-      <!--      <li class="list-group-item">-->
-      <!--        <a href="#" @click.prevent="changeView('orders')">orders</a>-->
-      <!--      </li>-->
-      <!--      <li class="list-group-item">-->
-      <!--        <a href="#" @click.prevent="changeView('result')">result</a>-->
-      <!--      </li>-->
-      <!--    <keep-alive>-->
-      <!--      v-on ""裡面呼叫的function不能+;分號!!!,v-on:拿來接收下面的資運,連接function-->
-      <component :is="view" :data_Now="data_Now" :name="name" :test="test" :applecount="applecount" :favor="favor"
-                 v-on:update="updateItem" v-on:person="updateItem_person"></component>
+      <!--子頁面-->
+      <component :is="view" :data_Now="data_Now" v-on:update="updateItem" v-on:person="updateItem_person"></component>
     </div>
-    <div class="container" style="text-align: center;">
 
-    </div>
+    <!--下面的分頁Page-->
     <div class="container" style="text-align: center;">
       <nav aria-label="Page navigation example">
         <ul class="pagination .pagination-sm">
           <li class="page-item" v-on:click="changePage('PREVIOUS')"><a class="page-link" href="#">PREVIOUS</a></li>
           <template v-for="data in totalPageData" v-bind:value="data.id">
-            <li v-bind:key="data.id" class="page-item" v-on:click="changePage(data.id)"><a class="page-link"
-                                                                                           href="#">{{ data.id }}</a>
+            <li v-bind:key="data.id" class="page-item" v-on:click="changePage(data.id)">
+              <a class="page-link" href="#">{{ data.id }}</a>
             </li>
           </template>
           <li class="page-item" v-on:click="changePage('NEXT')"><a class="page-link" href="#">NEXT</a></li>
-
         </ul>
       </nav>
     </div>
@@ -78,7 +62,6 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import personal_info from "@/components/personal_info";
 import result from "@/components/result";
 import orders from "@/components/orders";
@@ -101,10 +84,11 @@ export default {
           "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
         },
         orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [{title: "personal_info", "number": 0}, {title: "orders", "number": 1}, {
-          title: "result",
-          "number": 2
-        }]
+        tableSeq: [
+          {title: "personal_info", "number": 0},
+          {title: "orders", "number": 1},
+          {title: "result", "number": 2}
+        ]
       }, {
         "id": "A02",
         personal_info: {
@@ -112,10 +96,11 @@ export default {
           "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
         },
         orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [ {title: "orders", "number": 1}, {
-          title: "result",
-          "number": 2
-        }]
+        tableSeq: [
+          {title: "personal_info", "number": 0},
+          {title: "orders", "number": 1},
+          {title: "result", "number": 2}
+        ]
       }],
       //正確的資料格式
       DataFormat: {
@@ -125,10 +110,11 @@ export default {
           "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
         },
         orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [{title: "personal_info", "number": 0}, {title: "orders", "number": 1}, {
-          title: "result",
-          "number": 2
-        }]
+        tableSeq: [
+          {title: "personal_info", "number": 0},
+          {title: "orders", "number": 1},
+          {title: "result", "number": 2}
+        ]
       },//初始化資料,也是main data
       data_Now: {
         "id": id,
@@ -137,20 +123,17 @@ export default {
           "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
         },
         orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [{title: "personal_info", "number": 0}, {title: "orders", "number": 1}, {
-          title: "result",
-          "number": 2
-        }]
-      },//現在的所有資料,一開始先給空的
-      test: "test!!!!!!",
-      message: 'hello',
-      applecount: 1,//幾顆蘋果
+        tableSeq: [
+          {title: "personal_info", "number": 0},
+          {title: "orders", "number": 1},
+          {title: "result", "number": 2}
+        ]
+      },
+      job:'',
+      view: '',
       selected: '',//選擇的葉千
       formName: '',
-      favor: [],//幾種口味
-      view: '',
-      name: '', //從personal_info傳過來的 借放
-      orderTitle: []//之後排好的頁籤依順序放這
+      orderTitle: [],//之後排好的頁籤依順序放這
     }
   },
   created() { //初始話的時候要做的事情
@@ -159,7 +142,7 @@ export default {
   },
   mounted: function () {
     this.$data.formName = this.$data.data_Now.id;
-    this.selected = this.formName;
+    this.$data.selected = this.$data.formName;
   },
   methods: {
     logForm: function () {
@@ -169,18 +152,18 @@ export default {
       console.log(JSON.stringify(this.$data.totalPageData))
     },
     deleteForm: function () {
-      if (this.totalPageData.length === 1) {
+      if (this.$data.totalPageData.length === 1) {
         alert("最少留一張R!!");
         return;
       }
-      for (var i = 0; i < this.totalPageData.length; i++) {
-        if (this.ID === this.totalPageData[i].id) {//對應到了
-          this.totalPageData.splice(i, 1);//刪掉
-          this.data_Now = this.totalPageData[0];
-          this.ID = this.data_Now.id;
-          this.formName = this.ID;
-          this.selected = this.ID; //改頁籤顯示
-          this.changePage(this.ID);
+      for (var i = 0; i < this.$data.totalPageData.length; i++) {
+        if (this.$data.ID === this.$data.totalPageData[i].id) {//對應到了
+          this.$data.totalPageData.splice(i, 1);//刪掉
+          this.$data.data_Now = this.$data.totalPageData[0];
+          this.$data.ID = this.$data.data_Now.id;
+          this.$data.formName = this.$data.ID;
+          this.$data.selected = this.$data.ID; //改頁籤顯示
+          this.changePage(this.$data.ID);
           break;
         }
       }
@@ -207,14 +190,10 @@ export default {
       this.view = viewName;
     },
     updateItem_person: function (data) {//接應子元件,把下面的data拿出來
-      // alert(JSON.stringify(data))
-      this.test = this.formatName(data.lastname + data.firstname);
-      this.data_Now.personal_info = data;
+      this.$data.data_Now.personal_info = data;
     },
     updateItem: function (data) { //接應子元件,把下面的data拿出來
-      this.applecount = data.apple_count;
-      this.favor = data.picked_favor;
-      this.data_Now.orders = data;
+      this.$data.data_Now.orders = data;
     },
     formatName: function (name) {
       if (!name || name === '') {
@@ -226,65 +205,59 @@ export default {
     changePage: function (theID) { //換頁籤的時候要做的事情
       if (theID === "PREVIOUS" || theID === "NEXT") {
         var index = 0;
-        for (var i = 0; i < this.totalPageData.length; i++) {
-          if (this.ID === this.totalPageData[i].id) {
+        for (var i = 0; i < this.$data.totalPageData.length; i++) {
+          if (this.$data.ID === this.$data.totalPageData[i].id) {
             index = i;
           }
         }
         if (theID === "PREVIOUS") {
-          if (index === 0)//第一頁就不用了
+          if (index === 0)
             return
-          this.data_Now = this.totalPageData[index - 1]
-          theID = this.data_Now.id;
+          this.$data.data_Now = this.$data.totalPageData[index - 1]
+          theID = this.$data.data_Now.id;
         }
         if (theID === "NEXT") {
-          if (index === this.totalPageData.length - 1)//最後一頁也不用了
+          if (index === this.$data.totalPageData.length - 1)
             return
-          this.data_Now = this.totalPageData[index + 1]
-          theID = this.data_Now.id;
+          this.data_Now = this.$data.totalPageData[index + 1]
+          theID = this.$data.data_Now.id;
         }
         //接著得把所有頁面換成選中的id的json數據組
         this.changeCurrentData_ByID();
       }
-
-      // this.formName = this.selected; //改頁籤顯示
-      this.formName = theID;
-      this.selected = theID;
+      this.$data.formName = theID;
+      this.$data.selected = theID;
       //先把當前寫的都儲存到totalpage對應的id裡面
       this.storeToTotalPage();
       //接著改目前的id,用這個找出等等要拿出來的
-      this.ID = this.selected;
+      this.$data.ID = this.$data.selected;
       //接著得把所有頁面換成選中的id的json數據組
       this.changeCurrentData_ByID();
-      this.orderByTitle();//排列顯示的頁籤
+      //排列顯示的頁籤
+      this.orderByTitle();
     },
     storeToTotalPage: function () { //把當下所塡的所有資料儲存到總數據
       for (var i = 0; i < this.totalPageData.length; i++) {
-        if (this.ID === this.totalPageData[i].id) {//對應到了
-          this.totalPageData[i] = this.data_Now;//存進去
-          // alert(JSON.stringify(this.totalPageData));
+        if (this.$data.ID === this.$data.totalPageData[i].id) {
+          this.$data.totalPageData[i] = this.$data.data_Now;
         }
       }
     },
     changeCurrentData_ByID: function () {
-      for (var i = 0; i < this.totalPageData.length; i++) {
-        // alert("this.ID=" + this.ID + ",\n this.totalPageData[i].id" + this.totalPageData[i].id)
-        if (this.ID === this.totalPageData[i].id) {//對應到了
-          this.data_Now = this.totalPageData[i];//拿出來放進去dataNow
-          // alert(JSON.stringify(this.data_Now));
+      for (let i = 0; i < this.$data.totalPageData.length; i++) {
+        if (this.ID === this.$data.totalPageData[i].id) {
+          this.$data.data_Now = this.$data.totalPageData[i];
           break;
         }
       }
     },
     orderByTitle: function () { //排列標籤順序
-      var orderResult = [];//最後會把頁籤名子照順序排好放在這裡
+      var orderResult = [];
       var orderbyNumber = [];
-      //先取所有數字 因為不一定是0123連號 之後以大小來排
-      for (let i = 0; i < this.data_Now.tableSeq.length; i++) {
-        var _each = this.data_Now.tableSeq[i];
+      for (let i = 0; i < this.$data.data_Now.tableSeq.length; i++) {
+        var _each = this.$data.data_Now.tableSeq[i];
         orderbyNumber[i] = _each.number;
       }
-      //先排序數字(value)的大小,因為不一定是連號的,就以最小的開始排吧
       for (let j = 0; j < orderbyNumber.length - 1; j++) {
         if (orderbyNumber[j] > orderbyNumber[j + 1]) {
           var temp = orderbyNumber[j];
@@ -292,20 +265,16 @@ export default {
           orderbyNumber[j + 1] = temp;
         }
       }
-      //排順序放到orderResult這個陣列裡面給orderTitle
       for (let k = 0; k < orderbyNumber.length; k++) {
-        for (let x = 0; x < this.data_Now.tableSeq.length; x++) {
-          if (orderbyNumber[k] === this.data_Now.tableSeq[x].number) {
-            orderResult.push(this.data_Now.tableSeq[x].title);
+        for (let x = 0; x < this.$data.data_Now.tableSeq.length; x++) {
+          if (orderbyNumber[k] === this.$data.data_Now.tableSeq[x].number) {
+            orderResult.push(this.$data.data_Now.tableSeq[x].title);
           }
         }
       }
-      // alert("orderResult=" + orderResult);
-      // alert("orderbyNumber=" + orderbyNumber)
-      this.orderTitle = orderResult;
+      this.$data.orderTitle = orderResult;
     }
   }
-
 }
 </script>
 

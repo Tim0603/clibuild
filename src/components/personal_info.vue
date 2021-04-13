@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--    名子的部分-->
+    <!--名子的部分-->
     <div>
       <div>
         <p>firstName:</p>
@@ -14,7 +14,7 @@
         {{ lastname }}
       </div>
     </div>
-    <!--    性別-->
+    <!--性別-->
     <div>
       <p>Gender</p>
       <input type="radio" id="male" value="0" v-model="sex_picked" v-on:change="updateItem_person">
@@ -33,7 +33,7 @@
     <span>Picked: {{ sex_picked }}</span>
 
     <div>
-      <!--    地址-->
+      <!--地址-->
       <p>address</p>
       <input v-model="address" placeholder="edit me" :disabled="isHomeLess" v-on:change="updateItem_person">{{
         isHomeLess
@@ -42,7 +42,7 @@
       <label for="checkbox">此顧客暫無居所</label>
     </div>
     <div>
-      <!--    工作-->
+      <!--工作-->
       <p>job</p>
       <select v-model="job" v-on:change="updateItem_person">
         <option v-for="job in jobs" v-bind:value="job.chi" v-bind:key="job.chi">
@@ -52,7 +52,7 @@
       {{ job }}
     </div>
     <div>
-      <!--    Note筆記-->
+      <!--Note筆記-->
       <p>note</p>
       <p>{{ noteText.length }}/200 個字</p>
       <textarea v-model="noteText" placeholder="add multiple lines" maxlength="200"
@@ -67,39 +67,35 @@
 <script>
 export default {
   props: {
-    // test: {type: String, require: true},
-    // totalPageData: {type: Array},
     data_Now: {type: Object}
   },
   data: function () {
     return {
-      firstname: this.data_Now.personal_info.firstname,
-      lastname: this.data_Now.personal_info.lastname,
+      job: this.data_Now.personal_info.job,
       address: this.data_Now.personal_info.address,
+      noteText: this.data_Now.personal_info.noteText,
+      lastname: this.data_Now.personal_info.lastname,
+      firstname: this.data_Now.personal_info.firstname,
       isHomeLess: this.data_Now.personal_info.isHomeLess,
       sex_picked: this.data_Now.personal_info.sex_picked,
-      noteText: this.data_Now.personal_info.noteText,
-      job: this.data_Now.personal_info.job,
-      jobs: [{chi: "保密", eng: "null"}, {chi: "調查員", eng: "agent"}, {
-        chi: "秘密調查員",
-        eng: "secret_agent"
-      }, {chi: "秘密調查員的調查員", eng: "agent_of_secret_agent"}]
+      jobs: [{chi: "保密", eng: "null"},
+        {chi: "調查員", eng: "agent"},
+        {chi: "秘密調查員", eng: "secret_agent"},
+        {chi: "秘密調查員的調查員", eng: "agent_of_secret_agent"}]
     };
   }, created: function () {
-    // alert(JSON.stringify(this.data_Now));
+
   },
   watch: {
-    data_Now: function (newVal, oldVal) { // watch it
+    data_Now: function (newVal, oldVal) {
       console.log(newVal + "" + oldVal)
-      this.job = this.data_Now.personal_info.job;
-      this.address = this.data_Now.personal_info.address;
-      this.noteText = this.data_Now.personal_info.noteText;
-      this.lastname = this.data_Now.personal_info.lastname;
-      this.firstname = this.data_Now.personal_info.firstname;
-      this.isHomeLess = this.data_Now.personal_info.isHomeLess;
-      this.sex_picked = this.data_Now.personal_info.sex_picked;
-      // alert(JSON.stringify(this.data_Now.orders))
-      // alert(this.data_Now.orders.applecount);
+      this.$data.job = this.$data.data_Now.personal_info.job;
+      this.$data.address = this.$data.data_Now.personal_info.address;
+      this.$data.noteText = this.$data.data_Now.personal_info.noteText;
+      this.$data.lastname = this.$data.data_Now.personal_info.lastname;
+      this.$data.firstname = this.$data.data_Now.personal_info.firstname;
+      this.$data.sex_picked = this.$data.data_Now.personal_info.sex_picked;
+      this.$data.isHomeLess = this.$data.data_Now.personal_info.isHomeLess;
 
     }
   },
@@ -114,10 +110,9 @@ export default {
       }
     },
     updateItem_person: function () {
-      //事件名稱 //value =>this.message是指子層的噢！
       const data = {
-        "firstname": this.firstname, "lastname": this.lastname, "address": this.address,
-        "sex_picked": this.sex_picked, "noteText": this.noteText, "job": this.job, isHomeLess: this.isHomeLess
+        "firstname": this.$data.firstname, "lastname": this.$data.lastname, "address": this.$data.address,
+        "sex_picked": this.$data.sex_picked, "noteText": this.$data.noteText, "job": this.$data.job, isHomeLess: this.$data.isHomeLess
       }
       this.$emit('person', data);
     }

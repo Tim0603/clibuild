@@ -19,7 +19,6 @@
         </ul>
       </div>
     </div>
-    <!--    <button v-on:click="printDataNOW" style="height: 50px;width: 155px">show目前data</button>-->
   </div>
 </template>
 
@@ -30,40 +29,30 @@ export default {
   },
   data: function () {
     return {
+      name: "",
       applecount: this.data_Now.orders.applecount,
-      picked_favor: this.data_Now.orders.picked_favor,
-      name: "" //組合名子
+      picked_favor: this.data_Now.orders.picked_favor
     };
   },
-
   created() {
-    this.name = this.formatName();
+    // this.name = this.formatName();
   },
-  watch: {
-    data_Now: function (newVal, oldVal) { // watch it
-      console.log(newVal + "" + oldVal)
-      this.applecount = this.data_Now.orders.applecount;
-      this.picked_favor = this.data_Now.orders.picked_favor;
-      this.name = this.formatName();
 
-      // alert(JSON.stringify(this.data_Now.orders))
-      // alert(this.data_Now.orders.picked_favor);
-
+  mounted() {
+    this.name = this.data_Now.personal_info.lastname + this.data_Now.personal_info.firstname;
+    if (!this.name || this.name === '') {
+      this.name= "unknown"
     }
   },
   methods: {
-    printDataNOW: function () {
-      alert(JSON.stringify(this.data_Now));
-      console.log(JSON.stringify(this.data_Now));
-    },
-    formatName: function () {
-      var name = this.data_Now.personal_info.lastname + this.data_Now.personal_info.firstname;
-      if (!name || name === '') {
-        return "unknown"
-      } else {
-        return name
-      }
-    }
+    // formatName: function () {
+    //   var name = this.$data.data_Now.personal_info.lastname + this.$data.data_Now.personal_info.firstname;
+    //   if (!name || name === '') {
+    //     return "unknown"
+    //   } else {
+    //     return name
+    //   }
+    // }
   }
 };
 </script>

@@ -9,8 +9,8 @@
 
     <h1>banana</h1>
     <p>配料</p>
-    <div >
-      <template v-for="fav in favorList" v-bind:value="fav.eng" >
+    <div>
+      <template v-for="fav in favorList" v-bind:value="fav.eng">
         <input type="checkbox" v-model="picked_favor" v-bind:value="fav.chi" v-bind:key="fav.chi" @change="updateText">
         <label v-bind:key="fav.chi">{{ fav.chi }} </label>
       </template>
@@ -25,28 +25,30 @@
 export default {
   name: "",
   props: {
-    totalPageData: {type: Array},
     data_Now: {type: Object}
   },
   data: function () {
     return {
       apple_count: this.data_Now.orders.applecount,
       picked_favor: this.data_Now.orders.picked_favor,
-      favorList: [{chi: "巧克力醬", eng: "chocolate"}, {chi: "草莓醬", eng: "strawberry"}, {chi: "胡麻醬", eng: "flax"},
-        {chi: "味曾", eng: "miso"}, {chi: "辣椒", eng: "chili"}, {chi: "大蒜", eng: "garlic"}, {
-          chi: "醬油",
-          eng: "soy_sauce"
-        }, {chi: "醬油膏", eng: "thick_soy_sauce"}, {chi: "百草膏", eng: "herbal_cream"}]
+      favorList: [
+        {chi: "味曾", eng: "miso"},
+        {chi: "辣椒", eng: "chili"},
+        {chi: "胡麻醬", eng: "flax"},
+        {chi: "大蒜", eng: "garlic"},
+        {chi: "醬油", eng: "soy_sauce"},
+        {chi: "草莓醬", eng: "strawberry"},
+        {chi: "巧克力醬", eng: "chocolate"},
+        {chi: "百草膏", eng: "herbal_cream"},
+        {chi: "醬油膏", eng: "thick_soy_sauce"}
+      ]
     }
   },
   watch: {
-    data_Now: function (newVal, oldVal) { // watch it
+    data_Now: function (newVal, oldVal) {
       console.log(newVal + "" + oldVal)
       this.picked_favor = this.data_Now.orders.picked_favor;
       this.apple_count = this.data_Now.orders.applecount;
-      // alert(JSON.stringify(this.data_Now.orders))
-      // alert(this.data_Now.orders.applecount);
-
     }
   },
   methods: {
@@ -82,7 +84,6 @@ export default {
     },
     updateText: function () {
       const data = {"picked_favor": this.picked_favor, "applecount": this.apple_count}
-      //事件名稱 //value =>this.message是指子層的噢！
       this.$emit('update', data);
     }
   }
