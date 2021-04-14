@@ -4,14 +4,14 @@
     <br>
     <br>
     <!--所有按鈕-->
-    <button v-on:click="logForm">log this form</button>
-    <button v-on:click="logAllForm">log all form</button>
-    <button v-on:click="deleteForm">delete this form</button>
-    <button v-on:click="addForm">add form</button>
-    <button v-on:click="alertTotalPageData">alertTotalPageData</button>
-    <button v-on:click="alertData_Now">alertData_Now</button>
-    <button v-on:click="alertDataFormat">alertDataFormat</button>
-    <button v-on:click="alertOrderTitle">alertOrderTitle</button>
+<!--    <button v-on:click="logForm">log this form</button>-->
+<!--    <button v-on:click="logAllForm">log all form</button>-->
+<!--    <button v-on:click="deleteForm">delete this form</button>-->
+<!--    <button v-on:click="addForm">add form</button>-->
+<!--    <button v-on:click="alertTotalPageData">alertTotalPageData</button>-->
+<!--    <button v-on:click="alertData_Now">alertData_Now</button>-->
+<!--    <button v-on:click="alertDataFormat">alertDataFormat</button>-->
+<!--    <button v-on:click="alertOrderTitle">alertOrderTitle</button>-->
 
     <div class="container" style="text-align: left;">
       <div>

@@ -8,12 +8,13 @@
       <button v-on:click="countapple(1)" class="btn btn-warning">+1</button>
       <button v-on:click="countapple(5)" class="btn btn-success">+5</button>
     </div>
-    <h1>banana</h1>
-    <p>配料</p>
+    <br>
+    <br>
+    <h1>banana配料</h1>
     <div>
       <template v-for="fav in favorList" v-bind:value="fav.chi">
         <input type="checkbox" v-model="picked_favor" v-bind:value="fav.chi" v-bind:key="fav.chi" @change="updateFavor">
-        <label v-bind:key="fav.chi">{{ fav.chi }} </label>
+        <label style="font-size: 20px;" v-bind:key="fav.chi">{{ fav.chi }} </label>
       </template>
     </div>
     <br>
