@@ -52,7 +52,7 @@ export default {
 <style scoped>
 .p{
   font-size: 20px;
-  font-family: '微軟正黑體';
+  /*font-family: '微軟正黑體';*/
 }
 
 </style>
