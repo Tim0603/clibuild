@@ -1,22 +1,23 @@
 <template>
   <div>
     <h1>apple</h1>
-    <button v-on:click="countapple(-5)">-5</button>
-    <button v-on:click="countapple(-1)">-1</button>
-    <input type="number" v-model="apple_count" v-on:change="inputApple;updateText;">
-    <button v-on:click="countapple(1)">+1</button>
-    <button v-on:click="countapple(5)">+5</button>
-
+    <div>
+      <button v-on:click="countapple(-5)" class="btn btn-success">-5</button>
+      <button v-on:click="countapple(-1)" class="btn btn-warning">-1</button>
+      <input type="number" name="apple_count" :value="data_Now.orders.applecount" v-on:change="inputApple;updateText;">
+      <button v-on:click="countapple(1)" class="btn btn-warning">+1</button>
+      <button v-on:click="countapple(5)" class="btn btn-success">+5</button>
+    </div>
     <h1>banana</h1>
     <p>配料</p>
     <div>
-      <template v-for="fav in favorList" v-bind:value="fav.eng">
-        <input type="checkbox" v-model="picked_favor" v-bind:value="fav.chi" v-bind:key="fav.chi" @change="updateText">
+      <template v-for="fav in favorList" v-bind:value="fav.chi">
+        <input type="checkbox" v-model="picked_favor" v-bind:value="fav.chi" v-bind:key="fav.chi" @change="updateFavor">
         <label v-bind:key="fav.chi">{{ fav.chi }} </label>
       </template>
     </div>
     <br>
-    <span>Checked names: {{ picked_favor }}</span>
+<!--    <span>Checked names: {{ picked_favor }}</span>-->
 
   </div>
 </template>
@@ -29,7 +30,7 @@ export default {
   },
   data: function () {
     return {
-      apple_count: this.data_Now.orders.applecount,
+      // apple_count: this.data_Now.orders.applecount,
       picked_favor: this.data_Now.orders.picked_favor,
       favorList: [
         {chi: "味曾", eng: "miso"},
@@ -43,48 +44,64 @@ export default {
         {chi: "醬油膏", eng: "thick_soy_sauce"}
       ]
     }
-  },
-  watch: {
+  }
+  , computed: {
+    apple_count() {
+      return this.data_Now.orders.applecount;
+    },
+    // picked_favor() {
+    //   return this.data_Now.orders.picked_favor;
+    // }
+  }
+
+  , watch: {
     data_Now: function (newVal, oldVal) {
       console.log(newVal + "" + oldVal)
       this.picked_favor = this.data_Now.orders.picked_favor;
-      this.apple_count = this.data_Now.orders.applecount;
+      // this.apple_count = this.data_Now.orders.applecount;
     }
-  },
+  }
+  ,
   methods: {
-    countapple: function (mount) {
-      if (!this.$data.apple_count) {
-        this.$data.apple_count = 1
+    countapple: function (mount, e) {
+      if (!this.data_Now.orders.applecount) {
+        this.data_Now.orders.applecount = 1
       }
-      this.$data.apple_count = parseInt(this.$data.apple_count, 10)
-      if (this.$data.apple_count < 1) {
-        this.$data.apple_count = 1;
-      } else if (this.$data.apple_count > 100) {
-        this.$data.apple_count = 100;
+      this.data_Now.orders.applecount = parseInt(this.data_Now.orders.applecount, 10)
+      if (this.data_Now.orders.applecount < 1) {
+        this.data_Now.orders.applecount = 1;
+      } else if (this.data_Now.orders.applecount > 100) {
+        this.data_Now.orders.applecount = 100;
       }
-      this.$data.apple_count += parseInt(mount, 10)
-      if (this.$data.apple_count < 1) {
-        this.$data.apple_count = 1;
-      } else if (this.$data.apple_count > 100) {
-        this.$data.apple_count = 100;
+      this.data_Now.orders.applecount += parseInt(mount, 10)
+      if (this.data_Now.orders.applecount < 1) {
+        this.data_Now.orders.applecount = 1;
+      } else if (this.data_Now.orders.applecount > 100) {
+        this.data_Now.orders.applecount = 100;
       }
-      this.updateText()
+      this.updateText(e)
     },
-    inputApple: function () {
-      if (!this.$data.apple_count) {
-        this.$data.apple_count = 1
+    inputApple: function (e) {
+      if (!this.data_Now.orders.applecount) {
+        this.data_Now.orders.applecount = 1
       }
-      this.$data.apple_count = parseInt(this.$data.apple_count, 10)
-      if (this.$data.apple_count < 1) {
-        this.$data.apple_count = 1;
-      } else if (this.$data.apple_count > 100) {
-        this.$data.apple_count = 100;
+      this.data_Now.orders.applecount = parseInt(this.data_Now.orders.applecount, 10)
+      if (this.data_Now.orders.applecount < 1) {
+        this.data_Now.orders.applecount = 1;
+      } else if (this.data_Now.orders.applecount > 100) {
+        this.data_Now.orders.applecount = 100;
       }
-      this.updateText()
+      this.updateText(e)
     },
-    updateText: function () {
-      const data = {"picked_favor": this.picked_favor, "applecount": this.apple_count}
-      this.$emit('update', data);
+    updateText: function (e) {
+      if (e.target.name === 'picked_favor') {
+        // alert(e.target.value);
+        // alert('dddddddd');
+      }
+      this.$emit("updateOrderList", e);
+    },
+    updateFavor: function () {
+      this.$emit("updateFavor", this.picked_favor);
     }
   }
 }
@@ -92,7 +109,7 @@ export default {
 
 <style scoped>
 .btn {
-  width: 15px;
-  height: 15px;
+  /*width: 15px;*/
+  /*height: 15px;*/
 }
 </style>

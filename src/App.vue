@@ -15,12 +15,13 @@
 
     <div class="container" style="text-align: left;">
       <div>
-        form-{{ formName }}
+        <u style="font-size: 20px;">form {{ formName }}</u>
+
       </div>
       <div>
         跳至
         <select v-model="selected" v-on:change="changePage(selected)">
-          <option v-for="data in totalPageData" v-bind:value="data.id" v-bind:key="data.id">
+          <option v-for="data in totalPageData" v-bind::value="data.id" v-bind:key="data.id">
             {{ data.id }}
           </option>
         </select>
@@ -28,19 +29,19 @@
       </div>
 
     </div>
-    <div style="border: 1px solid greenyellow;" class="container">
+    <div style="border:2px solid brown;border-radius: 5px" class="container">
       <div>
         <!--切換的頁籤-->
         <ul class="nav">
           <template v-for="title in orderTitle">
-            <li class="list-group-item" v-bind:key="title">
-              <a href="#" @click.prevent="changeView(title)">{{ title }}</a>
+            <li class="list-group-item" v-bind:key="title" style="border: none">
+              <a href="#" @click.prevent="changeView(title)" style="font-size: 18px">{{ title }}</a>
             </li>
           </template>
         </ul>
       </div>
       <!--子頁面-->
-      <component :is="view" :data_Now="data_Now" v-on:update="updateItem" v-on:person="updateItem_person"></component>
+      <component :is="view" :data_Now="data_Now" @updateOrderList="updateItem" @changeData="updateItem_person" v-on:updateFavor="updateFavordd"></component>
     </div>
 
     <!--下面的分頁Page-->
@@ -48,7 +49,7 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination .pagination-sm">
           <li class="page-item" v-on:click="changePage('PREVIOUS')"><a class="page-link" href="#">PREVIOUS</a></li>
-          <template v-for="data in totalPageData" v-bind:value="data.id">
+          <template v-for="data in totalPageData" v-bind::value="data.id">
             <li v-bind:key="data.id" class="page-item" v-on:click="changePage(data.id)">
               <a class="page-link" href="#">{{ data.id }}</a>
             </li>
@@ -189,11 +190,16 @@ export default {
     changeView(viewName) {
       this.view = viewName;
     },
-    updateItem_person: function (data) {//接應子元件,把下面的data拿出來
-      this.$data.data_Now.personal_info = data;
+    updateItem_person: function (e) {//接應子元件,把下面的data拿出來
+      const { name, value } = e.target;
+      this.$data.data_Now.personal_info[name] = value;
     },
-    updateItem: function (data) { //接應子元件,把下面的data拿出來
-      this.$data.data_Now.orders = data;
+    updateItem: function (e) { //接應子元件,把下面的data拿出來
+      const { name, value } = e.target;
+      this.$data.data_Now.orders[name] = value;
+    },
+    updateFavordd: function (data) { //接應子元件,把下面的data拿出來
+      this.$data.data_Now.orders['picked_favor'] = data;
     },
     formatName: function (name) {
       if (!name || name === '') {

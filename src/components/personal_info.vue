@@ -1,61 +1,67 @@
 <template>
   <div>
     <!--名子的部分-->
-    <div>
+    <div class="row">
+      <div class="">
+        <p style="font-size: 15px;">firstName:</p>
+      </div>
       <div>
-        <p>firstName:</p>
-        <input v-model="firstname" @change="updateItem_person">
-        {{ firstname }}
+        <input name="firstname" :value="this.data_Now.personal_info.firstname" @change="updateItem_person">
+      </div>
+      <br> <br>
+      <div>
+        <div class="">
+          <p>lastName:</p>
+        </div>
+        <div class="">
+          <input name="lastname" :value="this.data_Now.personal_info.lastname" v-on:change="updateItem_person">
+        </div>
+      </div>
+      <br>
 
-      </div>
-      <div>
-        <p>lastName:</p>
-        <input v-model="lastname" v-on:change="updateItem_person">
-        {{ lastname }}
-      </div>
     </div>
     <!--性別-->
     <div>
-      <p>Gender</p>
-      <input type="radio" id="male" value="0" v-model="sex_picked" v-on:change="updateItem_person">
-      <label for="one">male</label>
+      <div style="margin-top: 5px;">
+        <p>Gender:</p>
+      </div>
+      <input type="radio" id="male" v-model="sex_picked" name="sex_picked" :value="0" v-on:change="updateItem_person">
+      <label>male</label>
+      <input type="radio" id="female" v-model="sex_picked" name="sex_picked" :value="1" v-on:change="updateItem_person">
+      <label>female</label>
+      <input type="radio" id="secret" v-model="sex_picked" name="sex_picked" :value="2" v-on:change="updateItem_person">
+      <label>secret</label>
     </div>
-    <div>
+    <!--    <span>Picked: {{ sex_picked }}</span>-->
 
-      <input type="radio" id="female" value="1" v-model="sex_picked" v-on:change="updateItem_person">
-      <label for="two">female</label>
-    </div>
-    <div>
-      <input type="radio" id="secret" value="2" v-model="sex_picked" v-on:change="updateItem_person">
-      <label for="two">secret</label>
-
-    </div>
-    <span>Picked: {{ sex_picked }}</span>
-
-    <div>
+    <div style="margin-top: 5px;">
       <!--地址-->
-      <p>address</p>
-      <input v-model="address" placeholder="edit me" :disabled="isHomeLess" v-on:change="updateItem_person">{{
-        isHomeLess
-      }}
-      <input type="checkbox" id="checkbox" v-model="isHomeLess" v-on:change="clearAddress">
-      <label for="checkbox">此顧客暫無居所</label>
+      <p>Address:</p>
+      <div>
+        <input name="address" placeholder="edit me" :disabled="isHomeLess" :value="this.data_Now.personal_info.address"
+               v-on:change="updateItem_person">
+      </div>
+      <div>
+        <input type="checkbox" id="checkbox" name="isHomeLess" v-on:change="clearAddress">
+        <label for="checkbox">此顧客暫無居所</label>
+      </div>
     </div>
-    <div>
+    <div style="margin-top: 5px;">
       <!--工作-->
       <p>job</p>
-      <select v-model="job" v-on:change="updateItem_person">
+      <select name="job" v-on:change="updateItem_person">
         <option v-for="job in jobs" v-bind:value="job.chi" v-bind:key="job.chi">
           {{ job.chi }}
         </option>
       </select>
-      {{ job }}
+      <!--      {{ job }}-->
     </div>
-    <div>
+    <div style="margin-top: 5px;">
       <!--Note筆記-->
       <p>note</p>
-      <p>{{ noteText.length }}/200 個字</p>
-      <textarea v-model="noteText" placeholder="add multiple lines" maxlength="200"
+      <p>{{ this.data_Now.personal_info.noteText.length }}/200 個字</p>
+      <textarea name="noteText" placeholder="add multiple lines" maxlength="200"
+                :value="this.data_Now.personal_info.noteText"
                 v-on:change="updateItem_person"></textarea>
     </div>
     <br>
@@ -71,11 +77,11 @@ export default {
   },
   data: function () {
     return {
-      job: this.data_Now.personal_info.job,
-      address: this.data_Now.personal_info.address,
-      noteText: this.data_Now.personal_info.noteText,
-      lastname: this.data_Now.personal_info.lastname,
-      firstname: this.data_Now.personal_info.firstname,
+      // job: this.data_Now.personal_info.job,
+      // address: this.data_Now.personal_info.address,
+      // noteText: this.data_Now.personal_info.noteText,
+      // lastname: this.data_Now.personal_info.lastname,
+      // firstname: this.data_Now.personal_info.firstname,
       isHomeLess: this.data_Now.personal_info.isHomeLess,
       sex_picked: this.data_Now.personal_info.sex_picked,
       jobs: [{chi: "保密", eng: "null"},
@@ -86,17 +92,12 @@ export default {
   }, created: function () {
 
   },
+  computed: {}
+  ,
   watch: {
     data_Now: function (newVal, oldVal) {
       console.log(newVal + "" + oldVal)
-      this.$data.job = this.$data.data_Now.personal_info.job;
-      this.$data.address = this.$data.data_Now.personal_info.address;
-      this.$data.noteText = this.$data.data_Now.personal_info.noteText;
-      this.$data.lastname = this.$data.data_Now.personal_info.lastname;
-      this.$data.firstname = this.$data.data_Now.personal_info.firstname;
-      this.$data.sex_picked = this.$data.data_Now.personal_info.sex_picked;
-      this.$data.isHomeLess = this.$data.data_Now.personal_info.isHomeLess;
-
+      this.$data.sex_picked = this.$props.data_Now.personal_info.sex_picked;
     }
   },
   methods: {
@@ -109,12 +110,8 @@ export default {
         addressTag.disable = false;
       }
     },
-    updateItem_person: function () {
-      const data = {
-        "firstname": this.$data.firstname, "lastname": this.$data.lastname, "address": this.$data.address,
-        "sex_picked": this.$data.sex_picked, "noteText": this.$data.noteText, "job": this.$data.job, isHomeLess: this.$data.isHomeLess
-      }
-      this.$emit('person', data);
+    updateItem_person: function (e) {
+      this.$emit("changeData", e);
     }
   }
 };
