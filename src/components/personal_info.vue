@@ -38,12 +38,12 @@
       <!--地址-->
       <p>Address:</p>
       <div>
-        <input name="address" placeholder="edit me" :disabled="isHomeLess" :value="this.data_Now.personal_info.address"
+        <input name="address" placeholder="edit me" :disabled="isHomeLess" :value="this.data_Now.personal_info.address" ref="address"
                v-on:change="updateItem_person">
       </div>
       <div>
-        <input type="checkbox" id="checkbox" name="isHomeLess" v-on:change="clearAddress">
-        <label for="checkbox">此顧客暫無居所</label>
+        <input type="checkbox"  name="isHomeLess" :value="this.$props.data_Now.personal_info.isHomeLess"  @change="clearAddress" ref="homeless">
+        <label for="isHomeLess" >此顧客暫無居所</label>
       </div>
     </div>
     <div style="margin-top: 5px;">
@@ -102,12 +102,14 @@ export default {
   },
   methods: {
     clearAddress: function () {
-      const addressTag = this.$refs.el;
-      if (this.$data.isHomeLess) {
-        this.$data.address = '';
-        addressTag.disable = true;
+      var addressTag = this.$refs.address;
+      if (this.$props.data_Now.personal_info.isHomeLess===false) {
+        this.$props.data_Now.personal_info.address = '';
+        addressTag.disabled = true;
+        this.$props.data_Now.personal_info.isHomeLess = true;
       } else {
-        addressTag.disable = false;
+        this.$props.data_Now.personal_info.isHomeLess = false;
+        addressTag.disabled = false;
       }
     },
     updateItem_person: function (e) {
