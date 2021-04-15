@@ -66,6 +66,8 @@
 import personal_info from "@/components/personal_info";
 import result from "@/components/result";
 import orders from "@/components/orders";
+import sampleData from "@/data/sampleData.json";
+import totalData from "@/data/totalData.json";
 
 const id = "A01";//初始給的id
 var serialnum = 2;//從3起跳,因為初始有兩個(a01跟a02)
@@ -78,45 +80,9 @@ export default {
     return {
       ID: id,
       //放所有資料
-      totalPageData: [{
-        "id": "A01",
-        personal_info: {
-          "firstname": "", "lastname": "", "address": "",
-          "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
-        },
-        orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [
-          {title: "personal_info", "number": 0},
-          {title: "orders", "number": 1},
-          {title: "result", "number": 2}
-        ]
-      }, {
-        "id": "A02",
-        personal_info: {
-          "firstname": "", "lastname": "", "address": "",
-          "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
-        },
-        orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [
-          {title: "personal_info", "number": 0},
-          {title: "orders", "number": 1},
-          {title: "result", "number": 2}
-        ]
-      }],
+      totalPageData: totalData,
       //正確的資料格式
-      DataFormat: {
-        "id": "",
-        personal_info: {
-          "firstname": "", "lastname": "", "address": "",
-          "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
-        },
-        orders: {"picked_favor": [], "applecount": 1},
-        tableSeq: [
-          {title: "personal_info", "number": 0},
-          {title: "orders", "number": 1},
-          {title: "result", "number": 2}
-        ]
-      },//初始化資料,也是main data
+      DataFormat: sampleData,//初始化資料,也是main data
       data_Now: {
         "id": id,
         personal_info: {
@@ -130,7 +96,7 @@ export default {
           {title: "result", "number": 2}
         ]
       },
-      job:'',
+      // job:'',
       view: '',
       selected: '',//選擇的葉千
       formName: '',
