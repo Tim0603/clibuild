@@ -12,7 +12,7 @@
       <p class="Xp">香蕉的配料如下:</p>
       <div>
         <template v-if="picked_favor.length===0">
-          <p class="Xp"> OOps...No data found</p>
+          <p class="Xp" STYLE="color: red"> OOps...No data found</p>
         </template>
         <ul>
           <li v-for="fav in picked_favor" v-bind:key="fav">
