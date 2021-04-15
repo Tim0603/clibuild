@@ -2,22 +2,21 @@
   <div class="container" style="text-align: center">
     <br>
     <br>
-
-    <p class="p">以下是{{ name }}的訂單</p>
+    <p class="Xp">以下是{{ name }}的訂單</p>
     <br>
     <br>
-    <p class="p">總共購買{{ appleCount }}顆蘋果</p>
+    <p class="Xp">總共購買{{ appleCount }}顆蘋果</p>
     <br>
     <br>
     <div>
-      <p class="p">香蕉的配料如下:</p>
+      <p class="Xp">香蕉的配料如下:</p>
       <div>
         <template v-if="picked_favor.length===0">
-          <p class="p"> OOps...No data found</p>
+          <p class="Xp"> OOps...No data found</p>
         </template>
         <ul>
           <li v-for="fav in picked_favor" v-bind:key="fav">
-            <p class="p">{{ fav }}</p>
+            <p class="Xp">{{ fav }}</p>
           </li>
         </ul>
       </div>
@@ -50,9 +49,7 @@ export default {
 </script>
 
 <style scoped>
-.p{
+.Xp{
   font-size: 20px;
-  /*font-family: '微軟正黑體';*/
 }
-
 </style>
