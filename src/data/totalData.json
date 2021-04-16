@@ -2,7 +2,7 @@
   "id": "A01",
   "personal_info": {
     "firstname": "", "lastname": "", "address": "",
-    "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
+    "sex_picked": "", "noteText": "", "job": "", "isHomeLess": false
   },
   "orders": {"picked_favor": [], "applecount": 1},
   "tableSeq": [
@@ -14,7 +14,7 @@
   "id": "A02",
   "personal_info": {
     "firstname": "", "lastname": "", "address": "",
-    "sex_picked": "", "noteText": "", "job": "", isHomeLess: false
+    "sex_picked": "", "noteText": "", "job": "", "isHomeLess": false
   },
   "orders": {"picked_favor": [], "applecount": 1},
   "tableSeq": [

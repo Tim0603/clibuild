@@ -1932,7 +1932,7 @@
   // The nextTick behavior leverages the microtask queue, which can be accessed
   // via either native Promise.then or MutationObserver.
   // MutationObserver has wider support, however it is seriously bugged in
-  // UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
+  // UIWebcurrentPage in iOS >= 9.3.3 when triggered in touch event handlers. It
   // completely stops working after triggering a few times... so, if native
   // Promise is available, we will use it:
   /* istanbul ignore next, $flow-disable-line */
@@ -1940,7 +1940,7 @@
     var p = Promise.resolve();
     timerFunc = function () {
       p.then(flushCallbacks);
-      // In problematic UIWebViews, Promise.then doesn't completely break, but
+      // In problematic UIWebcurrentPages, Promise.then doesn't completely break, but
       // it can get stuck in a weird state where callbacks are pushed into the
       // microtask queue but the queue isn't being flushed, until the browser
       // needs to do some other work, e.g. handle a timer. Therefore we can
@@ -4360,7 +4360,7 @@
    */
   function queueActivatedComponent (vm) {
     // setting _inactive to false here so that a render function can
-    // rely on checking whether it's in an inactive tree (e.g. router-view)
+    // rely on checking whether it's in an inactive tree (e.g. router-currentPage)
     vm._inactive = false;
     activatedChildren.push(vm);
   }
@@ -5456,7 +5456,7 @@
   var mustUseProp = function (tag, type, attr) {
     return (
       (attr === 'value' && acceptValue(tag)) && type !== 'button' ||
-      (attr === 'selected' && tag === 'option') ||
+      (attr === 'selectedFormId' && tag === 'option') ||
       (attr === 'checked' && tag === 'input') ||
       (attr === 'muted' && tag === 'video')
     )
@@ -5477,10 +5477,10 @@
 
   var isBooleanAttr = makeMap(
     'allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,' +
-    'default,defaultchecked,defaultmuted,defaultselected,defer,disabled,' +
+    'default,defaultchecked,defaultmuted,defaultselectedFormId,defer,disabled,' +
     'enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,' +
     'muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,' +
-    'required,reversed,scoped,seamless,selected,sortable,translate,' +
+    'required,reversed,scoped,seamless,selectedFormId,sortable,translate,' +
     'truespeed,typemustmatch,visible'
   );
 
@@ -5605,7 +5605,7 @@
   var isSVG = makeMap(
     'svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,' +
     'foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,' +
-    'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view',
+    'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,currentPage',
     true
   );
 
@@ -5661,14 +5661,14 @@
    */
   function query (el) {
     if (typeof el === 'string') {
-      var selected = document.querySelector(el);
-      if (!selected) {
+      var selectedFormId = document.querySelector(el);
+      if (!selectedFormId) {
         warn(
           'Cannot find element: ' + el
         );
         return document.createElement('div')
       }
-      return selected
+      return selectedFormId
     } else {
       return el
     }
@@ -7408,13 +7408,13 @@
     modifiers
   ) {
     var number = modifiers && modifiers.number;
-    var selectedVal = "Array.prototype.filter" +
-      ".call($event.target.options,function(o){return o.selected})" +
+    var selectedFormIdVal = "Array.prototype.filter" +
+      ".call($event.target.options,function(o){return o.selectedFormId})" +
       ".map(function(o){var val = \"_value\" in o ? o._value : o.value;" +
       "return " + (number ? '_n(val)' : 'val') + "})";
 
-    var assignment = '$event.target.multiple ? $$selectedVal : $$selectedVal[0]';
-    var code = "var $$selectedVal = " + selectedVal + ";";
+    var assignment = '$event.target.multiple ? $$selectedFormIdVal : $$selectedFormIdVal[0]';
+    var code = "var $$selectedFormIdVal = " + selectedFormIdVal + ";";
     code = code + " " + (genAssignmentCode(value, assignment));
     addHandler(el, 'change', code, null, true);
   }
@@ -8473,7 +8473,7 @@
             directive.componentUpdated(el, binding, vnode);
           });
         } else {
-          setSelected(el, binding, vnode.context);
+          setselectedFormId(el, binding, vnode.context);
         }
         el._vOptions = [].map.call(el.options, getValue);
       } else if (vnode.tag === 'textarea' || isTextInputType(el.type)) {
@@ -8481,7 +8481,7 @@
         if (!binding.modifiers.lazy) {
           el.addEventListener('compositionstart', onCompositionStart);
           el.addEventListener('compositionend', onCompositionEnd);
-          // Safari < 10.2 & UIWebView doesn't fire compositionend when
+          // Safari < 10.2 & UIWebcurrentPage doesn't fire compositionend when
           // switching focus before confirming composition choice
           // this also fixes the issue where some browsers e.g. iOS Chrome
           // fires "change" instead of "input" on autocomplete.
@@ -8496,7 +8496,7 @@
 
     componentUpdated: function componentUpdated (el, binding, vnode) {
       if (vnode.tag === 'select') {
-        setSelected(el, binding, vnode.context);
+        setselectedFormId(el, binding, vnode.context);
         // in case the options rendered by v-for have changed,
         // it's possible that the value is out-of-sync with the rendered options.
         // detect such cases and filter out values that no longer has a matching
@@ -8517,17 +8517,17 @@
     }
   };
 
-  function setSelected (el, binding, vm) {
-    actuallySetSelected(el, binding, vm);
+  function setselectedFormId (el, binding, vm) {
+    actuallySetselectedFormId(el, binding, vm);
     /* istanbul ignore if */
     if (isIE || isEdge) {
       setTimeout(function () {
-        actuallySetSelected(el, binding, vm);
+        actuallySetselectedFormId(el, binding, vm);
       }, 0);
     }
   }
 
-  function actuallySetSelected (el, binding, vm) {
+  function actuallySetselectedFormId (el, binding, vm) {
     var value = binding.value;
     var isMultiple = el.multiple;
     if (isMultiple && !Array.isArray(value)) {
@@ -8538,25 +8538,25 @@
       );
       return
     }
-    var selected, option;
+    var selectedFormId, option;
     for (var i = 0, l = el.options.length; i < l; i++) {
       option = el.options[i];
       if (isMultiple) {
-        selected = looseIndexOf(value, getValue(option)) > -1;
-        if (option.selected !== selected) {
-          option.selected = selected;
+        selectedFormId = looseIndexOf(value, getValue(option)) > -1;
+        if (option.selectedFormId !== selectedFormId) {
+          option.selectedFormId = selectedFormId;
         }
       } else {
         if (looseEqual(getValue(option), value)) {
-          if (el.selectedIndex !== i) {
-            el.selectedIndex = i;
+          if (el.selectedFormIdIndex !== i) {
+            el.selectedFormIdIndex = i;
           }
           return
         }
       }
     }
     if (!isMultiple) {
-      el.selectedIndex = -1;
+      el.selectedFormIdIndex = -1;
     }
   }
 

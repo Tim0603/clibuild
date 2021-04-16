@@ -6,7 +6,7 @@
         <p style="font-size: 15px;">firstName:</p>
       </div>
       <div>
-        <input name="firstname" :value="this.data_Now.personal_info.firstname" @change="updateItem_person">
+        <input name="firstname" :value="allForms[index].personal_info.firstname" @change="updateItem_person">
       </div>
       <br> <br>
       <div>
@@ -14,7 +14,7 @@
           <p>lastName:</p>
         </div>
         <div class="">
-          <input name="lastname" :value="this.data_Now.personal_info.lastname" v-on:change="updateItem_person">
+          <input name="lastname" :value="allForms[index].personal_info.lastname" v-on:change="updateItem_person">
         </div>
       </div>
       <br>
@@ -32,36 +32,34 @@
       <input type="radio" id="secret" v-model="sex_picked" name="sex_picked" :value="2" v-on:change="updateItem_person">
       <label>secret</label>
     </div>
-    <!--    <span>Picked: {{ sex_picked }}</span>-->
 
     <div style="margin-top: 5px;">
       <!--地址-->
       <p>Address:</p>
       <div>
-        <input name="address" placeholder="edit me" :disabled="isHomeLess" :value="this.data_Now.personal_info.address" ref="address"
+        <input name="address" placeholder="edit me" :disabled="isHomeLess" :value="allForms[index].personal_info.address" ref="address"
                v-on:change="updateItem_person">
       </div>
       <div>
-        <input type="checkbox"  name="isHomeLess" :value="this.$props.data_Now.personal_info.isHomeLess"  @change="clearAddress" ref="homeless">
+        <input type="checkbox"  name="isHomeLess" :value="allForms[index].personal_info.isHomeLess"  @change="clearAddress" ref="homeless">
         <label for="isHomeLess" >此顧客暫無居所</label>
       </div>
     </div>
     <div style="margin-top: 5px;">
       <!--工作-->
       <p>job</p>
-      <select name="job" v-on:change="updateItem_person">
+      <select name="job" :value="allForms[index].personal_info.job" v-on:change="updateItem_person">
         <option v-for="job in jobs" v-bind:value="job.chi" v-bind:key="job.chi">
           {{ job.chi }}
         </option>
       </select>
-      <!--      {{ job }}-->
     </div>
     <div style="margin-top: 5px;">
       <!--Note筆記-->
       <p>note</p>
-      <p>{{ this.data_Now.personal_info.noteText.length }}/200 個字</p>
+      <p>{{ allForms[index].personal_info.noteText.length }}/200 個字</p>
       <textarea name="noteText" placeholder="add multiple lines" maxlength="200"
-                :value="this.data_Now.personal_info.noteText"
+                :value="allForms[index].personal_info.noteText"
                 v-on:change="updateItem_person"></textarea>
     </div>
     <br>
@@ -71,44 +69,45 @@
 </template>
 
 <script>
+import options from "@/data/options.json";
+
 export default {
   props: {
-    data_Now: {type: Object}
+    index: {type: Number},
+    allForms: {type: Array}
   },
   data: function () {
     return {
-      // job: this.data_Now.personal_info.job,
-      // address: this.data_Now.personal_info.address,
-      // noteText: this.data_Now.personal_info.noteText,
-      // lastname: this.data_Now.personal_info.lastname,
-      // firstname: this.data_Now.personal_info.firstname,
-      isHomeLess: this.data_Now.personal_info.isHomeLess,
-      sex_picked: this.data_Now.personal_info.sex_picked,
-      jobs: [{chi: "保密", eng: "null"},
-        {chi: "調查員", eng: "agent"},
-        {chi: "秘密調查員", eng: "secret_agent"},
-        {chi: "秘密調查員的調查員", eng: "agent_of_secret_agent"}]
+      jobs:options.jobs,
+      isHomeLess: this.allForms[this.index].personal_info.isHomeLess,
+      sex_picked: this.allForms[this.index].personal_info.sex_picked
     };
   }, created: function () {
 
   },
-  computed: {}
+  computed: {
+
+  }
   ,
   watch: {
-    data_Now: function (newVal, oldVal) {
+    allForms: function (newVal, oldVal) {
       console.log(newVal + "" + oldVal)
-      this.$data.sex_picked = this.$props.data_Now.personal_info.sex_picked;
+      this.$data.sex_picked = this.allForms[this.index].personal_info.sex_picked;
+    },
+    index: function (newVal, oldVal) {
+      console.log(newVal + "" + oldVal)
+      this.$data.sex_picked = this.allForms[this.index].personal_info.sex_picked;
     }
   },
   methods: {
     clearAddress: function () {
       var addressTag = this.$refs.address;
-      if (this.$props.data_Now.personal_info.isHomeLess===false) {
-        this.$props.data_Now.personal_info.address = '';
+      if (this.$props.allForms[this.$props.index].personal_info.isHomeLess===false) {
+        this.$props.allForms[this.$props.index].personal_info.address = '';
         addressTag.disabled = true;
-        this.$props.data_Now.personal_info.isHomeLess = true;
+        this.$props.allForms[this.$props.index].personal_info.isHomeLess = true;
       } else {
-        this.$props.data_Now.personal_info.isHomeLess = false;
+        this.$props.allForms[this.$props.index].personal_info.isHomeLess = false;
         addressTag.disabled = false;
       }
     },

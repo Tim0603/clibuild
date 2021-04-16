@@ -1,0 +1,58 @@
+{
+  "banana_condiments": [
+    {
+      "chi": "味曾",
+      "eng": "miso"
+    },
+    {
+      "chi": "辣椒",
+      "eng": "chili"
+    },
+    {
+      "chi": "胡麻醬",
+      "eng": "flax"
+    },
+    {
+      "chi": "大蒜",
+      "eng": "garlic"
+    },
+    {
+      "chi": "醬油",
+      "eng": "soy_sauce"
+    },
+    {
+      "chi": "草莓醬",
+      "eng": "strawberry"
+    },
+    {
+      "chi": "巧克力醬",
+      "eng": "chocolate"
+    },
+    {
+      "chi": "百草膏",
+      "eng": "herbal_cream"
+    },
+    {
+      "chi": "醬油膏",
+      "eng": "thick_soy_sauce"
+    }
+  ],
+  "jobs": [
+    {
+      "chi": "保密",
+      "eng": "null"
+    },
+    {
+      "chi": "調查員",
+      "eng": "agent"
+    },
+    {
+      "chi": "秘密調查員",
+      "eng": "secret_agent"
+    },
+    {
+      "chi": "秘密調查員的調查員",
+      "eng": "agent_of_secret_agent"
+    }
+  ]
+}

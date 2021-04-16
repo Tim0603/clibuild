@@ -27,18 +27,18 @@
 <script>
 export default {
   props: {
-    data_Now: {type: Object}
+    index: {type: Number},
+    allForms: {type: Array}
   },
   computed: {
     appleCount() {
-      // alert(JSON.stringify(this.data_Now))
-      return this.data_Now.orders.applecount;
+      return this.allForms[this.$props.index].orders.applecount;
     },
     picked_favor() {
-      return this.data_Now.orders.picked_favor;
+      return this.allForms[this.$props.index].orders.picked_favor;
     },
     name() {
-      let name = this.data_Now.personal_info.lastname + this.data_Now.personal_info.firstname;
+      let name = this.allForms[this.$props.index].personal_info.lastname + this.allForms[this.$props.index].personal_info.firstname;
       if (!name || name === '') {
         name = "unknown"
       }
