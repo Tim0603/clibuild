@@ -24,7 +24,6 @@
 
 <script>
 import options from "@/data/options.json";
-
 export default {
   props: {
     index: {type: Number},
@@ -40,9 +39,7 @@ export default {
     apple_count() {
       return this.allForms[this.index].orders.applecount;
     },
-
   }
-
   , watch: {
     allForms: function (newVal, oldVal) {
       console.log(newVal + "" + oldVal)
@@ -53,7 +50,6 @@ export default {
       this.picked_favor = this.allForms[this.index].orders.picked_favor;
     }
   },
-
   methods: {
     countapple: function (mount, e) {
       if (!this.allForms[this.$props.index].orders.applecount) {
@@ -94,6 +90,5 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 </style>

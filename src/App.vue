@@ -2,10 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <div>
-      <!--    <button v-on:click="logForm" class="btn btn-primary">log this form</button>-->
-      <!--    <button v-on:click="logAllForm" class="btn btn-secondary">log all form</button>-->
       <!--    <button v-on:click="addForm" class="btn btn-danger">add form</button>-->
-      <!--    <button v-on:click="alertformatForm">alertformatForm</button>-->
       <!--    <button v-on:click="alertOrderTitle">alertOrderTitle</button>-->
       <button v-on:click="deleteForm" class="btn btn-warning ">delete this form</button>
       <button v-on:click="alertSelectedForm" class="btn btn-danger">alertSelectedForm</button>
@@ -98,13 +95,6 @@ export default {
     getNewForm: function (id) {
       this.formatForm.id = id
       return this.formatForm;
-    },
-    logForm: function () {
-      console.log(JSON.stringify(this.$data.allForms[this.$data.index]))
-      alert(JSON.stringify(this.allForms[this.index].orders));
-    },
-    logAllForm: function () {
-      console.log(JSON.stringify(this.$data.allForms))
     },
     deleteForm: function () {
       if (this.$data.allForms.length === 1) {
