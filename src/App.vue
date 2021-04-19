@@ -7,20 +7,20 @@
     <button v-on:click="logForm" class="btn btn-primary">log this form</button>
     <button v-on:click="logAllForm" class="btn btn-secondary">log all form</button>
     <button v-on:click="deleteForm" class="btn btn-success">delete this form</button>
-<!--    <button v-on:click="addForm" class="btn btn-danger">add form</button>-->
+    <!--    <button v-on:click="addForm" class="btn btn-danger">add form</button>-->
     <button v-on:click="alertSelectedForm" class="btn btn-warning">alertSelectedForm</button>
-        <button v-on:click="alertAllForms">alertAllForms</button>
-<!--    <button v-on:click="alertDataFormat">alertDataFormat</button>-->
-<!--    <button v-on:click="alertOrderTitle">alertOrderTitle</button>-->
+    <button v-on:click="alertAllForms">alertAllForms</button>
+    <!--    <button v-on:click="alertformatForm">alertformatForm</button>-->
+    <!--    <button v-on:click="alertOrderTitle">alertOrderTitle</button>-->
 
     <div class="container" style="text-align: left;">
       <div>
-        <u style="font-size: 20px;">form {{ formName }}</u>
+        <u style="font-size: 20px;">form {{ ID }}</u>
 
       </div>
       <div>
         跳至
-        <select v-model="selectedFormId" v-on:change="changePage(selectedFormId)">
+        <select v-model="ID" v-on:change="changePage(ID)">
           <option v-for="data in allForms" v-bind::value="data.id" v-bind:key="data.id">
             {{ data.id }}
           </option>
@@ -41,7 +41,8 @@
         </ul>
       </div>
       <!--子頁面-->
-      <component :is="currentPage" :id="ID" :index="index" :allForms="allForms" @updateOrderList="updateItem" @changeData="updateItem_person" v-on:updateFavor="updateFavor"></component>
+      <component :is="currentPage" :id="ID" :index="index" :allForms="allForms" @updateOrderList="updateItem"
+                 @changeData="updateItem_person" v-on:updateFavor="updateFavor"></component>
     </div>
 
     <!--下面的分頁Page-->
@@ -63,12 +64,12 @@
 </template>
 
 <script>
-import personal_info from "@/components/personal_info";
 import result from "@/components/result";
 import orders from "@/components/orders";
-import sampleData from "@/data/sampleData.json";
 import totalData from "@/data/totalData.json";
-import utils from "./util";
+import sampleData from "@/data/sampleData.json";
+import personal_info from "@/components/personal_info";
+
 const id = "A01";//初始給的id
 var serialnum = 2;//從3起跳,因為初始有兩個(a01跟a02)
 export default {
@@ -79,28 +80,27 @@ export default {
   data() {
     return {
       ID: id,
-      index:0,
-      allForms: totalData,//放所有資料
-      DataFormat: sampleData, //正確的資料格式
-      formName: '',
+      index: 0,
       currentPage: '',
-      selectedFormId: '',//選擇的葉千
       orderTitle: [],//之後排好的頁籤依順序放這
+      allForms: totalData,//放所有資料
+      formatForm: sampleData, //正確的資料格式
     }
   },
   created() { //初始話的時候要做的事情
     this.orderByTitle();//先排好順序
     this.currentPage = this.orderTitle[0];//放入第一個開場時顯示
-    this.$data.index = utils.getFormIndex(this.allForms,this.$data.ID);
-  },
-  mounted: function () {
-    this.$data.formName = this.$data.allForms[this.index].id;
-    this.$data.selectedFormId = this.$data.formName;
+    this.$data.index = this.$data.allForms.findIndex(x => x.id === this.$data.ID);
+    this.$data.ID = this.$data.allForms[this.index].id;
   },
   methods: {
+    getNewForm: function (id) {
+      this.formatForm.id = id
+      return this.formatForm;
+    },
     logForm: function () {
       console.log(JSON.stringify(this.$data.allForms[this.$data.index]))
-      alert(JSON.stringify( this.allForms[this.index].orders));
+      alert(JSON.stringify(this.allForms[this.index].orders));
     },
     logAllForm: function () {
       console.log(JSON.stringify(this.$data.allForms))
@@ -110,18 +110,16 @@ export default {
         alert("最少留一張R!!");
         return;
       }
-      const index=utils.getFormIndex(this.$data.allForms,this.$data.ID );
-      alert(this.$data.ID+","+index);
+      const index = this.$data.allForms.findIndex(x => x.id === this.$data.ID);
+      alert(this.$data.ID + "," + index);
       this.$data.allForms.splice(index, 1);//刪掉
-      this.$data.ID = this.$data.allForms[0]
-      this.$data.formName = this.$data.ID;
-      this.$data.selectedFormId = this.$data.ID; //改頁籤顯示
+      this.$data.ID = this.$data.allForms[0].id
       this.changePage(this.$data.ID);
     },
     addForm: function () {
       serialnum = serialnum + 1;
-      this.DataFormat.id = "A" + (serialnum);
-      const newData = JSON.parse(JSON.stringify(utils.getNewForm(this.DataFormat.id)));
+      this.formatForm.id = "A" + (serialnum);
+      const newData = JSON.parse(JSON.stringify(this.getNewForm(this.formatForm.id)));
       this.allForms.push(newData);
     },
     alertAllForms: function () {
@@ -130,9 +128,6 @@ export default {
     alertSelectedForm: function () {
       alert(JSON.stringify(this.allForms[this.index]))
     },
-    alertDataFormat: function () {
-      alert(JSON.stringify(this.DataFormat))
-    },
     alertOrderTitle: function () {
       alert(JSON.stringify(this.orderTitle))
     },
@@ -140,17 +135,17 @@ export default {
       this.currentPage = currentPageName;
     },
     updateItem_person: function (e) {//接應子元件,把下面的data拿出來
-      const { name, value } = e.target;
-      const index=utils.getFormIndex(this.$data.allForms, this.$data.ID);
+      const {name, value} = e.target;
+      const index = this.$data.allForms.findIndex(x => x.id === this.$data.ID);
       this.$data.allForms[index].personal_info[name] = value;
     },
     updateItem: function (e) { //接應子元件,把下面的data拿出來
-      const { name, value } = e.target;
-      const index=utils.getFormIndex(this.$data.allForms, this.$data.ID);
+      const {name, value} = e.target;
+      const index = this.$data.allForms.findIndex(x => x.id === this.$data.ID);
       this.$data.allForms[index].orders[name] = value;
     },
     updateFavor: function (data) { //接應子元件,把下面的data拿出來
-      const index=utils.getFormIndex(this.$data.allForms, this.$data.ID);
+      const index = this.$data.allForms.findIndex(x => x.id === this.$data.ID);
       this.$data.allForms[index].orders['picked_favor'] = data;
     },
     changePage: function (theID) { //換頁籤的時候要做的事情
@@ -165,24 +160,15 @@ export default {
           if (index === 0)
             return
           this.$data.ID = this.$data.allForms[index - 1].id;
-          theID = this.$data.ID;
         }
         if (theID === "NEXT") {
           if (index === this.$data.allForms.length - 1)
             return
           this.$data.ID = this.$data.allForms[index + 1].id;
-          theID = this.$data.ID;
         }
-        //接著得把所有頁面換成選中的id的json數據組
-        this.$data.index = utils.getFormIndex(this.allForms,this.$data.ID);
-        // this.changeselectedForm_ByID();
       }
-      this.$data.formName = theID;
-      this.$data.selectedFormId = theID;
-      //接著改目前的id,用這個找出等等要拿出來的
-      this.$data.ID = this.$data.selectedFormId;
       //接著得把所有頁面換成選中的id的json數據組
-      this.$data.index = utils.getFormIndex(this.allForms,this.$data.ID);
+      this.$data.index = this.$data.allForms.findIndex(x => x.id === this.$data.ID);
       //排列顯示的頁籤
       this.orderByTitle();
     },
@@ -212,6 +198,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>
