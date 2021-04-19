@@ -82,7 +82,7 @@ export default {
       isHomeLess: this.allForms[this.index].personal_info.isHomeLess,
       sex_picked: this.allForms[this.index].personal_info.sex_picked
     };
-  }
+  },
   computed: {
 
   }
