@@ -1,18 +1,19 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <br>
+    <div>
+      <!--    <button v-on:click="logForm" class="btn btn-primary">log this form</button>-->
+      <!--    <button v-on:click="logAllForm" class="btn btn-secondary">log all form</button>-->
+      <!--    <button v-on:click="addForm" class="btn btn-danger">add form</button>-->
+      <!--    <button v-on:click="alertformatForm">alertformatForm</button>-->
+      <!--    <button v-on:click="alertOrderTitle">alertOrderTitle</button>-->
+      <button v-on:click="deleteForm" class="btn btn-warning ">delete this form</button>
+      <button v-on:click="alertSelectedForm" class="btn btn-danger">alertSelectedForm</button>
+      <button v-on:click="alertAllForms" class="btn btn-success ">alertAllForms</button>
+    </div>
     <br>
     <!--所有按鈕-->
-    <button v-on:click="logForm" class="btn btn-primary">log this form</button>
-    <button v-on:click="logAllForm" class="btn btn-secondary">log all form</button>
-    <button v-on:click="deleteForm" class="btn btn-success">delete this form</button>
-    <!--    <button v-on:click="addForm" class="btn btn-danger">add form</button>-->
-    <button v-on:click="alertSelectedForm" class="btn btn-warning">alertSelectedForm</button>
-    <button v-on:click="alertAllForms">alertAllForms</button>
-    <!--    <button v-on:click="alertformatForm">alertformatForm</button>-->
-    <!--    <button v-on:click="alertOrderTitle">alertOrderTitle</button>-->
-
+    <br>
     <div class="container" style="text-align: left;">
       <div>
         <u style="font-size: 20px;">form {{ ID }}</u>
